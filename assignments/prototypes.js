@@ -64,7 +64,47 @@ function Humanoid(humanAttributes) {
 Humanoid.prototype = Object.create(CharacterStats.prototype);
 
 Humanoid.prototype.greet = function() {
-  return `${this.name} offers a greeting in ${this.language}`
+  return `${this.name} offers a greeting in ${this.language}`;
+}
+
+
+// **************************** Stretch goal under here ************************************
+
+function Villain(villainAttributes) {
+  Humanoid.call(this,villainAttributes);
+}
+
+Villain.prototype = Object.create(Humanoid.prototype);
+
+Villain.prototype.nightmarePulse = function(target) {
+  target.healthPoints -=250;
+  target.takeDamage();
+  console.log(`${this.name} conjured a nightmare pulse! ${target.name} took 250 damage down to ${target.healthPoints}.`,`\n`)
+  if (target.healthPoints <= 0) {
+    console.log (`${target.name} is dead.`,`\n`)
+  }
+}
+
+
+
+function Hero(heroAttributes) {
+  Humanoid.call(this,heroAttributes);
+}
+
+Hero.prototype = Object.create(Humanoid.prototype);
+
+Hero.prototype.piercingLight = function(target) {
+  target.healthPoints -=200;
+  target.takeDamage();
+  console.log(`${this.name} called upon the piercing light! ${target.name} took 200 damage down to ${target.healthPoints}.`,`\n`)
+  if (target.healthPoints <= 0) {
+    console.log (`${target.name} is dead.`,`\n`)
+  }
+}
+
+Hero.prototype.stanosBlessing = function() {
+  this.healthPoints +=600;
+  console.log(`${this.name} has prayed for Stanos' Blessing! They've recovered 600 health points up to ${this.healthPoints}!`,`\n`)
 }
 
 /*
@@ -126,19 +166,81 @@ Humanoid.prototype.greet = function() {
     language: 'Elvish',
   });
 
-  console.log(mage.createdAt); // Today's date
-  console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
-  console.log(swordsman.healthPoints); // 15
-  console.log(mage.name); // Bruce
-  console.log(swordsman.team); // The Round Table
-  console.log(mage.weapons); // Staff of Shamalama
-  console.log(archer.language); // Elvish
-  console.log(archer.greet()); // Lilith offers a greeting in Elvish.
-  console.log(mage.takeDamage()); // Bruce took damage.
-  console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
+  // console.log(mage.createdAt); // Today's date
+  // console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
+  // console.log(swordsman.healthPoints); // 15
+  // console.log(mage.name); // Bruce
+  // console.log(swordsman.team); // The Round Table
+  // console.log(mage.weapons); // Staff of Shamalama
+  // console.log(archer.language); // Elvish
+  // console.log(archer.greet()); // Lilith offers a greeting in Elvish.
+  // console.log(mage.takeDamage()); // Bruce took damage.
+  // console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 
 
   // Stretch task: 
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+  const priestOfDarkness = new Villain({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 5,
+    },
+    healthPoints: 1000,
+    name: 'Sterix',
+    team: 'The Hellspawn',
+    weapons: [
+      'Scepter of Qizzix'
+    ],
+    language: `Ish'Nir`,
+  });
+
+  const paladinOfTheLight = new Hero({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 3,
+      height: 6,
+    },
+    healthPoints: 1000,
+    name: 'Gendrick',
+    team: 'Servants of the Light',
+    weapons: [
+      'Arclight Warhammer'
+    ],
+    language: `Common`,
+  });
+
+  // console.log(paladinOfTheLight.name);
+  // console.log(priestOfDarkness.name);
+
+
+
+
+  console.log(`Gendrick, Servant of the Light enters the Crypt of the Damned and finds that Sterix, Priest of the Hellspawn has been awaiting his arrival.`,`\n`)
+  console.log(`${paladinOfTheLight.name}: This ends today.`,`\n`)
+  console.log(`${priestOfDarkness.name}: Darkness will consume all.`,`\n`)
+
+  priestOfDarkness.nightmarePulse(paladinOfTheLight);
+  paladinOfTheLight.piercingLight(priestOfDarkness);
+  
+  priestOfDarkness.nightmarePulse(paladinOfTheLight);
+  paladinOfTheLight.piercingLight(priestOfDarkness);
+  
+  priestOfDarkness.nightmarePulse(paladinOfTheLight);
+
+  console.log(`${priestOfDarkness.name}: AHAHAHA, you're finished now, human.`,`\n`)
+
+  paladinOfTheLight.stanosBlessing();
+
+  console.log(`${priestOfDarkness.name}: NOOOOOOOOOOO!`,`\n`)
+
+  paladinOfTheLight.piercingLight(priestOfDarkness);
+  priestOfDarkness.nightmarePulse(paladinOfTheLight);
+  paladinOfTheLight.piercingLight(priestOfDarkness);
+  priestOfDarkness.nightmarePulse(paladinOfTheLight);
+  paladinOfTheLight.piercingLight(priestOfDarkness);
